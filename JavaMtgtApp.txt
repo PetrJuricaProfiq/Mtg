@@ -1,0 +1,86 @@
+Appka pro osobní správu Mtg. 
+Databáze karet co vlastním, Decklisty které bych chtěl a seznam co mám/nemám. 
+Ceny karet co vlastním a ceny karet co potřebuji.  
+
+Api:
+    Černý rytíř - POST http://www.cernyrytir.cz/index.php3?akce=3 . 
+        Důležitý "Content-Type: application/x-www-form-urlencoded".
+        Na konec raw "--data foil=F&jmenokarty=Elvish+Champion&submit=Vyhledej"
+    
+    Black Lotus -
+        Richard to ma napicu.
+        Posílat url requesty nefunguje, protože se tam přidává search argument co obsahuje zašifrované něco.
+        Bez něj nic nenajde.
+        Řešení:  http://www.blacklotus.cz/magic-vyhledavani/path-to-exile/
+        a pak zkoušet http://www.blacklotus.cz/magic-vyhledavani/path-to-exile-4/ atd...
+        nevýhoda je, že v tom má bordel a některá čísla nemusí fungovat.
+        Dále se karty jmenují různě, ale URL musí být přesné.
+        Path to exile - NON ENG FRA atd...
+    
+    Rishada - 
+    Nejvíc v pohodě. Všechny parametry jsou v URL. 
+    https://www.rishada.cz/kusovky/vysledky-hledani?searchtype=advanced&xxwhichpage=1&xxcardname=Path+to+Exile&xxtype=&xxtext=&xxedition=1000000&xxminquality=1&xxmaxquality=1&xxfoil=1&xxsignature=2&xxstamp=2&xxwhite=2&xxblue=2&xxblack=2&xxred=2&xxgreen=2&xxpowermin=&xxpowermax=&xxtoughnessmin=&xxtoughnessmax=&xxcmcmin=&xxcmcmax=&xxpricemin=&xxpricemax=&xxpagesize=10&search=Vyhledat
+
+Možné řešení:
+    Interface Query. Metoda "Search Card"
+    CernyRytir, BlackLotus, Rishada budou třídy co dědí a každá má vlastní implementaci hledání ceny. 
+
+    Class Card: 
+    Konstruktor chce minimálně Name a Edition. Zbytek se dá fetchnout přes Api. State bude defaultně Mint.
+    Fetchování součást konstruktoru? Co když nebude Api dostupná. Je to vůbec nutné? Kolik by zabírala DB všech karet magicu?
+    Co bude Class představovat? Fyzická karta s vlastníkem. User někdy v budoucnu. 
+    Co karty co nemám, ale co potřebuji? Přidat attribut "owns=true" pro karty co mám?
+
+        Návrh: 
+        
+        Repozitář karet. 
+        Tabulka co obsahuje všechny karty Magicu. 
+        Čili Název, Edice, cmc, power, toughness, text, odkaz na img a gathering....
+        
+        Tabulka s kartama co vlastním. Název, Edice, Stav. 
+        Do DB se uloží odkaz na kartu v repozítáři. Čistější návrh a bez redundace.
+
+        Tabulka s kartama co nevlastním. ^^^
+        Redundantní? Záznamy by se mohly automaticky vytvořit při načtení decklistu
+
+    Class Price:
+    Spojená s kartou.
+    Cena edice co vlastním a cena nejlevnější edice?
+    Datum ze kterého je cena.
+    Průběžně ukládat. Není potřeba ukládat do DB nový záznam pokud je cena stejná. Ušetřím místo.
+
+
+    Class Edition:
+    Název, Zkratka. Fetch z DB. Manuálně přidávat záznamy do DB, když vyjde nová edice? Jednou za 3 měsíce to neublíží. 
+    Pro použití v Appce, fetchnout z DB a uložit všechny do Mapy <Nazev, Zkratka>. 
+
+    Class State:
+    Jednoduchý list "Mint, LP, HP atd..." v Appce Enum. Ať v tom není bordel
+
+    Class Decklist:
+    Pro každou kartu bude potřeba udělat záznam do DecklistCard tabulky. Jak nejlépe vyrešit 1-4 karty. 
+    Bude stčit jen, potřeba/mám ? 2/4 atd... Odkaz přímo na karty by byl overkill... prozatím
+
+    Class DecklistCard:
+    Při vytvoření decklistu budou tyhle objekty představovat jednotlivé karty v decku. 
+    Při změně v Card tabulce přepočítat DecklistCard? 
+    S omezení, že bych prolézal jen DEcklistCard co má stejný název jako karta co prošla Insert/Update... 
+    Nebo by stačilo manuálně tlačítkem zavolat "přepočítat"? 
+
+    Deck:
+    4 Path to exile
+    4 Aether Vial
+    2 Horizon Canopy
+    =====================
+    DecklistCard -> 
+    Name: Path to exile, Need:4, Have: 4
+    Name: Aether Vial, Need: 4, Have: 0
+    Name: Horizon Canopy, Need: 2, Have: 1
+
+    Whislist:
+    Jak zjistit, že je něco levnějšího než obvykle... Historie cen? Průměrná cena za poslední měsíc?
+
+    Budoucnost:
+        Class User:
+        Každá karta a Decklist má Foreign Key UserId. Zobrazit jen ty záznamy s UserID přihlášeného usera
+
