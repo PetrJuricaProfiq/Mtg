@@ -1,0 +1,3 @@
+CREATE TABLE Format(
+    Format TEXT PRIMARY KEY 
+)
