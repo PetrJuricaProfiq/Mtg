@@ -9,8 +9,8 @@ Api:
     
     Black Lotus -
         Richard to ma napicu.
-        Posílat url requesty nefunguje, protože se tam přidává search argument co obsahuje zašifrované něco.
-        Bez něj nic nenajde.
+        Posílat url requesty nefunguje, protože se do url přidává search argument co obsahuje nějakou šifru.
+        Bez ní search nefunguje
         Řešení:  http://www.blacklotus.cz/magic-vyhledavani/path-to-exile/
         a pak zkoušet http://www.blacklotus.cz/magic-vyhledavani/path-to-exile-4/ atd...
         nevýhoda je, že v tom má bordel a některá čísla nemusí fungovat.
