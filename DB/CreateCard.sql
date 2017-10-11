@@ -1,0 +1,6 @@
+CREATE TABLE Card(
+    Id INTEGER PRIMARY KEY,
+    Info Integer NOT NULL,
+    Own BOOLEAN NOT NULL,
+    FOREIGN KEY (Info) REFERENCES CardInfo(Id)
+)
