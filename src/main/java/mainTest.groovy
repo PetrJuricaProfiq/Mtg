@@ -1,7 +1,7 @@
-import groovy.json.JsonParser
-import groovy.json.JsonSlurper
 import model.*
-import org.codehaus.groovy.*
+import Util.*
+import org.json.JSONObject
+
 class mainTest {
 
     static void main(String[] args) {
@@ -14,7 +14,11 @@ class mainTest {
         //println(typ.selectAll())
         //println(typ.selectType("Instant"))
         //sendingPostRequest()
-        parseJSON()
+        //def some = MtgJsonParser.getMtgCards()
+        //CardInfo.batchInsert(some)
+        //def info = new CardInfo(266017)
+        //Card card = new Card()
+        //card.insert(266017, true)
     }
 
     private static void sendingPostRequest() throws Exception {
@@ -31,7 +35,7 @@ class mainTest {
         //con.setRequestProperty("Upgrade-Insecure-Requests", "1")
         con.setRequestProperty("User-Agent", USER_AGENT)
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-        //con.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+        //con.setRequestProperty("Accept", "cardText/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
         //con.setRequestProperty("Cache-Control", "max-age=0")
         //con.setRequestProperty("Referer", "http://www.cernyrytir.cz/")
         //con.setRequestProperty("Connection", "keep-alive")
@@ -66,9 +70,12 @@ class mainTest {
 
 
     private static void parseJSON() {
-        File jsonFile = new File(System.getProperty("user.dir") + "/AllSets.json")
-        JsonSlurper slurp = new JsonSlurper()
-        //def jsonObject = slurp.parse(jsonFile)
-
+        String file = new File(System.getProperty("user.dir") + "/AllSets.json").text
+        def map = [:]
+        JSONObject jsonfile = new JSONObject(file)
+        for (edition in jsonfile.keys()) {
+            def jsonEdition = jsonfile.get(edition)
+            map.put(edition, jsonEdition.getString("name"))
+        }
     }
 }

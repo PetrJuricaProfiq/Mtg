@@ -1,0 +1,62 @@
+{
+  "A": {
+    "Name": "Neco",
+    "Text": "Neco text",
+    "Cards": [
+      {
+        "cmc": 20,
+        "ede": "hodne"
+      },
+      {
+        "cmc": 30,
+        "ede": "meh"
+      },
+      {
+        "cmc": 40,
+        "ede": "mah"
+      },
+      {
+        "cmc": 510,
+        "ede": "what"
+      },
+      {
+        "cmc": 600,
+        "ede": "dontdasfa"
+      },
+      {
+        "cmc": 700,
+        "ede": "dsfdasf"
+      }
+    ]
+  },
+  "B": {
+    "Name": "What?",
+    "Text": "I dont know",
+    "Cards": [
+      {
+        "cmc": 2,
+        "ede": "hodne"
+      },
+      {
+        "cmc": 3,
+        "ede": "meh"
+      },
+      {
+        "cmc": 4,
+        "ede": "mah"
+      },
+      {
+        "cmc": 5,
+        "ede": "what"
+      },
+      {
+        "cmc": 6,
+        "ede": "dontdasfa"
+      },
+      {
+        "cmc": 7,
+        "ede": "dsfdasf"
+      }
+    ]
+  }
+}

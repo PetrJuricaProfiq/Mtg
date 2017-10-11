@@ -1,4 +1,4 @@
 CREATE TABLE Edition (
-    Shortcut text PRIMARY KEY,
-    Name text NOT NULL UNIQUE 
+    Shortcut Text PRIMARY KEY,
+    Name Text NOT NULL UNIQUE 
 )

@@ -1,5 +1,6 @@
 package model
 
+import Util.DatabaseConnector
 import groovy.sql.Sql
 
 import java.sql.SQLException

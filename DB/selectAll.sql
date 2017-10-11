@@ -1,1 +1,1 @@
-Select * from Format
+SELECT * FROM 'Cardinfo'
